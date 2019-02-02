@@ -14,25 +14,27 @@ operations:
 We can also merge manageBuyOffer into manageOffer as a switch, and pathDonation
 into pathPayment as a switch as well; we would end up with three operations.
 
-The steps bellow can be implemented either independently or at once.
+The steps bellow can be implemented either independently or at once, and in any
+order.
 
 ## 1 - Go ahead with CAP-0006, or merge it into manageOffer
 
 take-or-make orders have two direction: buy & sell. manageOffer is sell
 direction and CAP-0006 implement buy direction.
 
-## 2 - Make createPassiveOffer post-only
+## 2 - Implement pathDonation, or merge it into pathPayment
+
+As for take-or-make, fill-or-kill is a directional operation. pathPayment
+implement the buy direction and we need a new operation/switch that give us the
+sell direction.
+
+## 3 - Make createPassiveOffer post-only
 
 We need post-only at protocol level because it can't be properly emulated.
 createPassiveOffer is meant to be used to provide liquidity, so it's an
 anti-feature that it can cross offers. This is the perfect candidate to carry
 post-only functionality.
 
-## 3 - Implement pathDonation, or merge it into pathPayment
-
-As for take-or-make, fill-or-kill is a directional operation. pathPayment
-implement the buy direction and we need a new operation/switch that give us the
-sell direction.
 
 ## 4 - Non-atomic transactions (transaction-wide parameter)
 
